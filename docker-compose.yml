@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  app:
+    container_name: greenx-portal-laravel
+    build:
+      context: ./
+      dockerfile: docker/app.docker
+    volumes:
+      - ../ico-portal:/var/www
+
+  web:
+    container_name: greenx-portal-nginx
+    build:
+      context: ./
+      dockerfile: docker/web.docker
+    volumes:
+      - ../ico-portal:/var/www
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    links:
+      - app
